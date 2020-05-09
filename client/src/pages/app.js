@@ -1,16 +1,22 @@
 import React from "react"
 import { Router, Redirect } from "@reach/router"
-import Layout from "../components/Layout"
 import Calendar from "../components/Calendar";
 import Login from '../dynamicPages/login';
+import { ThemeProvider } from '@material-ui/core/styles';
+import theme from '../styles/mainTheme';
+import SideDrawer from '../components/sideDrawer';
 
 const App = () => {
     return (
-        <Router basepath="/app">
-            <Redirect path="/" to="/app/Login"/>
-            <Calendar path="/Calendar" />
-            <Login path="/Login" />
-        </Router>
+        <ThemeProvider theme={theme}>
+            <SideDrawer>
+                <Router basepath="/app">
+                    <Redirect path="/" to="/app/Login"/>
+                    <Calendar path="/Calendar" />
+                    <Login path="/Login" />
+                </Router>
+            </SideDrawer>
+        </ThemeProvider>
     )
 }
 export default App
