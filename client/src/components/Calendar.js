@@ -1,113 +1,61 @@
-import React from "react";
-import "./calendar.css";
-import { format, addMonths, subMonths, startOfWeek,startOfMonth, endOfWeek,endOfMonth ,addDays, isSameMonth, isSameDay ,toDate } from 'date-fns'
+import * as React from 'react';
+import Paper from '@material-ui/core/Paper';
+import { ViewState } from '@devexpress/dx-react-scheduler';
+import {
+  Scheduler,
+  WeekView,
+  MonthView,
+  DayView,
+  Appointments,
+  ViewSwitcher,
+  Toolbar,
+  DateNavigator,
+} from '@devexpress/dx-react-scheduler-material-ui';
+import { format } from 'date-fns'
 
-class Calendar extends React.Component {
-  state = {
-    currentMonth: new Date(),
-    selectedDate: new Date()
-  };
-  renderHeader() {
-    const dateFormat = "MMMM yyyy";
-    return (
-      <div className="header row flex-middle">
-        <div className="col col-start">
-          <div className="icon" onClick={this.prevMonth}>
-            chevron_left
-          </div>
-        </div>
-        <div className="col col-center">
-          <span>
-            {format(this.state.currentMonth, dateFormat)}
-          </span>
-        </div>
-        <div className="col col-end" onClick={this.nextMonth}>
-          <div className="icon">chevron_right</div>
-        </div>
-      </div>
-    );
-  }
-  renderDays() {
-    const dateFormat = "iiii";
-    const days = [];
-    let startDate = startOfWeek(this.state.currentMonth);
-    for (let i = 0; i < 7; i++) {
-      days.push(
-        <div className="col col-center" key={i}>
-          {format(addDays(startDate, i), dateFormat)}
-        </div>
-      );
-    }
-    return <div className="days row">{days}</div>;
-  }
-  renderCells() {
-    const { currentMonth, selectedDate } = this.state;
-    const monthStart = startOfMonth(currentMonth);
-    const monthEnd = endOfMonth(monthStart);
-    const startDate = startOfWeek(monthStart);
-    const endDate = endOfWeek(monthEnd);
 
-    const dateFormat = "d";
-    const rows = [];
-    let days = [];
-    let day = startDate;
-    let formattedDate = "";
-    while (day <= endDate) {
-      for (let i = 0; i < 7; i++) {
-        formattedDate = format(day, dateFormat);
-        const cloneDay = day;
-        days.push(
-          <div
-            className={`col cell ${
-              !isSameMonth(day, monthStart)
-                ? "disabled"
-                : isSameDay(day, selectedDate) ? "selected" : ""
-            }`}
-            key={day}
-            onClick={() => this.onDateClick(toDate(cloneDay))}
-          >
-            <span className="number">{formattedDate}</span>
-            <span className="bg">{formattedDate}</span>
-          </div>
-        );
-        day = addDays(day, 1);
-      }
-      rows.push(
-        <div className="row" key={day}>
-          {days}
-        </div>
-      );
-      days = [];
+export default class Calendar extends React.PureComponent {
+  constructor(props) {
+    super(props);
 
-    }
-    return <div className="body">{rows}</div>;
+    this.state = {
+      data: [],
+      currentDate:format(new Date(), 'yyyy-MM-dd'),
+    };
+
   }
-  
-  onDateClick = day => {
-    this.setState({
-      selectedDate: day
-    });
-  };
-  nextMonth = () => {
-    this.setState({
-      currentMonth: addMonths(this.state.currentMonth, 1)
-    });
-  };
-  prevMonth = () => {
-    this.setState({
-      currentMonth: subMonths(this.state.currentMonth, 1)
-    });
-  };
 
   render() {
+    const { data } = this.state;
+
     return (
-      <div className="calendar">
-        {this.renderHeader()}
-        {this.renderDays()}
-        {this.renderCells()}
-      </div>
+      <React.Fragment>
+
+        <Paper>
+          <Scheduler
+            data={data}
+            height={760}
+          >
+            <ViewState
+              defaultCurrentDate={this.state.currentDate}
+              defaultCurrentViewName="Month"
+            />
+            <MonthView />
+            <WeekView
+              startDayHour={10}
+              endDayHour={19}
+            />
+            <DayView
+              startDayHour={6}
+              endDayHour={24}
+            />
+            <Toolbar />
+            <DateNavigator/>
+            <ViewSwitcher />
+            <Appointments />
+          </Scheduler>
+        </Paper>
+      </React.Fragment>
     );
   }
 }
-
-export default Calendar;

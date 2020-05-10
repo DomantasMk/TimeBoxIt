@@ -4,16 +4,22 @@ const theme = createMuiTheme({
   palette: {
     primary: {      
         light: '#757ce8',
-        main: '#3f50b5',
+        main: '#4F5D75',
         dark: '#002884',
         contrastText: '#fff',
+        paper:'#3f50b5',
     },
     secondary: {      
         light: '#ff7961',
         main: '#f44336',
         dark: '#ba000d',
         contrastText: '#000',
+        paper:'#f44336',
     },
+    background:{
+      paper:'#fffbff',
+      default:'#FEFEFF'
+    }
   },
   status: {
     danger: 'orange',

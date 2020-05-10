@@ -1,20 +1,18 @@
-import React, { Children } from 'react';
+import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
-import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import MailIcon from '@material-ui/icons/Mail';
 import MenuIcon from '@material-ui/icons/Menu';
-import Toolbar from '@material-ui/core/Toolbar';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
+import EventNoteIcon from '@material-ui/icons/EventNote';
+import {Link} from '@reach/router';
 
-const drawerWidth = 160;
+const drawerWidth = 180;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,27 +27,33 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor:"rgba(0,0,0,0.0)",
     border:0,
     height:0,
-    [theme.breakpoints.up('sm')]: {
-      width: `calc(100% - ${drawerWidth}px)`,
-      marginLeft: drawerWidth,
-    },
+    padding: theme.spacing(0),
   },
   menuButton: {
-    marginRight: theme.spacing(0),
+
+    marginRight: theme.spacing(1),
+    paddingLeft: theme.spacing(3),
     [theme.breakpoints.up('sm')]: {
       display: 'none',
     },
   },
   // necessary for content to be below app bar
-  toolbar: theme.mixins.toolbar,
   drawerPaper: {
     width: drawerWidth,
   },
   content: {
-      marginLeft:"auto",
-      marginRight:"auto",
+      marginLeft:theme.spacing("auto"),
+      marginRight:theme.spacing("auto"),
     flexGrow: 1,
+    marginTop:1,
+    elevation:10,
     padding: theme.spacing(1),
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: drawerWidth,
+    },
+    [theme.breakpoints.down('xs')]: {
+      marginTop:theme.spacing(5),
+    }
   },
 }));
 
@@ -67,12 +71,10 @@ function SideDrawer(props) {
     <div>
       <div className={classes.toolbar} />
       <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemText primary={text} />
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+          <ListItem button component={Link} to="/app/Calendar">
+            <ListItemText primary={"Calendar"} />
+            <ListItemIcon><EventNoteIcon color="secondary"/></ListItemIcon>
           </ListItem>
-        ))}
       </List>
     </div>
   );
@@ -82,7 +84,7 @@ function SideDrawer(props) {
   return (
     <div className={classes.root}>
       <AppBar position="fixed" elevation={0} className={classes.appBar}>
-        <Toolbar>
+        <div>
           <IconButton
             color="primary"
             aria-label="open drawer"
@@ -92,14 +94,14 @@ function SideDrawer(props) {
           >
             <MenuIcon />
           </IconButton>
-        </Toolbar>
+        </div>
       </AppBar>
       <nav className={classes.drawer} aria-label="mailbox folders">
         <Hidden smUp implementation="css">
           <Drawer
             container={container}
             variant="temporary"
-            anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+            anchor={theme.direction='left'}
             open={mobileOpen}
             onClose={handleDrawerToggle}
             classes={{
