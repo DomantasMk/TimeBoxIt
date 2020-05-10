@@ -5,6 +5,7 @@ import Login from '../dynamicPages/login';
 import { ThemeProvider } from '@material-ui/core/styles';
 import theme from '../styles/mainTheme';
 import SideDrawer from '../components/sideDrawer';
+import TopicsList from '../components/TopicsList';
 
 const App = () => {
     return (
@@ -14,6 +15,7 @@ const App = () => {
                     <Redirect path="/" to="/app/Login"/>
                     <Calendar path="/Calendar" />
                     <Login path="/Login" />
+                    <TopicsList path="/Topics"/>
                 </Router>
             </SideDrawer>
         </ThemeProvider>

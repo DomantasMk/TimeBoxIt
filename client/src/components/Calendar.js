@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Paper from '@material-ui/core/Paper';
 import { ViewState } from '@devexpress/dx-react-scheduler';
+import { makeStyles } from '@material-ui/core/styles';
 import {
   Scheduler,
   WeekView,
@@ -13,23 +14,31 @@ import {
 } from '@devexpress/dx-react-scheduler-material-ui';
 import { format } from 'date-fns'
 
+const useStyles = makeStyles((theme) => ({
+  Calendar: {
+    marginLeft:theme.spacing("auto"),
+    marginRight:theme.spacing("auto"),
+    flexGrow: 1,
+    marginTop:1,
+    elevation:10,
+    padding: theme.spacing(1),
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: 180,
+    },
+    [theme.breakpoints.down('xs')]: {
+      marginTop:theme.spacing(5),
+    }
+  },
+}));
 
-export default class Calendar extends React.PureComponent {
-  constructor(props) {
-    super(props);
+export default function Calendar(){
+  const [data, setData] = React.useState([]);
+  const [currentDate, setCurrentDate] = React.useState(format(new Date(), 'yyyy-MM-dd'));
 
-    this.state = {
-      data: [],
-      currentDate:format(new Date(), 'yyyy-MM-dd'),
-    };
-
-  }
-
-  render() {
-    const { data } = this.state;
+  const classes = useStyles();
 
     return (
-      <React.Fragment>
+      <div className={classes.Calendar}>
 
         <Paper>
           <Scheduler
@@ -37,7 +46,7 @@ export default class Calendar extends React.PureComponent {
             height={760}
           >
             <ViewState
-              defaultCurrentDate={this.state.currentDate}
+              defaultCurrentDate={currentDate}
               defaultCurrentViewName="Month"
             />
             <MonthView />
@@ -55,7 +64,6 @@ export default class Calendar extends React.PureComponent {
             <Appointments />
           </Scheduler>
         </Paper>
-      </React.Fragment>
+      </div>
     );
-  }
 }

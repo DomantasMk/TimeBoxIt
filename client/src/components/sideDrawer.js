@@ -10,6 +10,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import MenuIcon from '@material-ui/icons/Menu';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import EventNoteIcon from '@material-ui/icons/EventNote';
+import ListAltIcon from '@material-ui/icons/ListAlt';
 import {Link} from '@reach/router';
 
 const drawerWidth = 180;
@@ -42,18 +43,7 @@ const useStyles = makeStyles((theme) => ({
     width: drawerWidth,
   },
   content: {
-      marginLeft:theme.spacing("auto"),
-      marginRight:theme.spacing("auto"),
-    flexGrow: 1,
-    marginTop:1,
-    elevation:10,
-    padding: theme.spacing(1),
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: drawerWidth,
-    },
-    [theme.breakpoints.down('xs')]: {
-      marginTop:theme.spacing(5),
-    }
+
   },
 }));
 
@@ -74,6 +64,10 @@ function SideDrawer(props) {
           <ListItem button component={Link} to="/app/Calendar">
             <ListItemText primary={"Calendar"} />
             <ListItemIcon><EventNoteIcon color="secondary"/></ListItemIcon>
+          </ListItem>
+          <ListItem button component={Link} to="/app/Topics">
+            <ListItemText primary={"Topic Groups"} />
+            <ListItemIcon><ListAltIcon color="secondary"/></ListItemIcon>
           </ListItem>
       </List>
     </div>
