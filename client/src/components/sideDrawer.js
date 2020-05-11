@@ -21,12 +21,12 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     flexWrap: 'wrap',
+    justifyContent: 'center',
   },
   drawer: {
     [theme.breakpoints.up('sm')]: {
       width: drawerWidth,
     },
-    backgroundColor:"#344955",
   },
   appBar: {
     backgroundColor:"rgba(0,0,0,0.0)",
@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
     },
     [theme.breakpoints.down('xs')]: {
       minWidth:"100%",
-    }
+    },
   },
 }));
 
@@ -80,7 +80,7 @@ function SideDrawer(props) {
           </ListItem>
           <ListItem button component={Link} to="/app/Topics">
             <ListItemText primary={"Topic Groups"} />
-            <ListItemIcon><ListAltIcon style={{ color: "#fffbff" }}/></ListItemIcon>
+            <ListItemIcon><ListAltIcon style={{ color: "#fffbff" }} /></ListItemIcon>
           </ListItem>
       </List>
     </div>

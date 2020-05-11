@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     }
   }));
 
-export default function TopicContainer({topic:{TopicName,dailyTasks,tasksDone,type}}) {
+export default function TopicContainer({topic:{TopicName,dailyTasks,tasksDone,type,tasksFailed}}) {
    
     const classes = useStyles();
     return (
@@ -33,9 +33,10 @@ export default function TopicContainer({topic:{TopicName,dailyTasks,tasksDone,ty
             <CardActionArea>
               <CardContent>
                   <Typography gutterBottom variant="h4" component="h4">{TopicName}</Typography>
-                  <Typography variant="body1" component="p">{dailyTasks}</Typography>
-                  <Typography variant="body1" component="p">{tasksDone}</Typography>
-                  <Typography variant="body1" component="p">{type}</Typography>
+                  <Typography variant="body1" component="p">{type} tasks: {dailyTasks}</Typography>
+
+                  <Typography variant="body1" component="p">Finished: {tasksDone}</Typography>
+                  <Typography variant="body1" component="p">Failed: {tasksFailed}</Typography>
                 </CardContent>
             </CardActionArea>
           </Card>
