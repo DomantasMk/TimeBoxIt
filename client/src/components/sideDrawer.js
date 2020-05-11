@@ -12,23 +12,28 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import EventNoteIcon from '@material-ui/icons/EventNote';
 import ListAltIcon from '@material-ui/icons/ListAlt';
 import {Link} from '@reach/router';
+import Container from '@material-ui/core/Container';
+import Typography from '@material-ui/core/Typography';
 
 const drawerWidth = 180;
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
+    flexWrap: 'wrap',
   },
   drawer: {
     [theme.breakpoints.up('sm')]: {
       width: drawerWidth,
     },
+    backgroundColor:"#344955",
   },
   appBar: {
     backgroundColor:"rgba(0,0,0,0.0)",
     border:0,
     height:0,
     padding: theme.spacing(0),
+    
   },
   menuButton: {
 
@@ -41,9 +46,17 @@ const useStyles = makeStyles((theme) => ({
   // necessary for content to be below app bar
   drawerPaper: {
     width: drawerWidth,
+    backgroundColor:"#344955",
+    color:"#fffbff",
   },
   content: {
-
+    minWidth:"85%",
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: 180,
+    },
+    [theme.breakpoints.down('xs')]: {
+      minWidth:"100%",
+    }
   },
 }));
 
@@ -51,7 +64,7 @@ function SideDrawer(props) {
   const { window } = props;
   const classes = useStyles();
   const theme = useTheme();
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [mobileOpen, setMobileOpen] = React.useState(0);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -63,11 +76,11 @@ function SideDrawer(props) {
       <List>
           <ListItem button component={Link} to="/app/Calendar">
             <ListItemText primary={"Calendar"} />
-            <ListItemIcon><EventNoteIcon color="secondary"/></ListItemIcon>
+            <ListItemIcon><EventNoteIcon style={{ color: "#fffbff" }}/></ListItemIcon>
           </ListItem>
           <ListItem button component={Link} to="/app/Topics">
             <ListItemText primary={"Topic Groups"} />
-            <ListItemIcon><ListAltIcon color="secondary"/></ListItemIcon>
+            <ListItemIcon><ListAltIcon style={{ color: "#fffbff" }}/></ListItemIcon>
           </ListItem>
       </List>
     </div>
@@ -90,7 +103,7 @@ function SideDrawer(props) {
           </IconButton>
         </div>
       </AppBar>
-      <nav className={classes.drawer} aria-label="mailbox folders">
+      <nav className={classes.drawer} aria-label="mailbox folders" >
         <Hidden smUp implementation="css">
           <Drawer
             container={container}

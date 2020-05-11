@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     elevation:10,
     padding: theme.spacing(1),
     [theme.breakpoints.up('sm')]: {
-      marginLeft: 180,
+      //marginLeft: 180,
     },
     [theme.breakpoints.down('xs')]: {
       marginTop:theme.spacing(5),
