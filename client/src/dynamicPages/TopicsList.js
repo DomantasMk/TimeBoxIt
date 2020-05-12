@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import TopicContainer from './TopicContainer';
+import TopicContainer from '../components/TopicContainer';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import IconButton from '@material-ui/core/IconButton';
 import { makeStyles} from '@material-ui/core/styles';

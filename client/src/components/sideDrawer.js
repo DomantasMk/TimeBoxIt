@@ -11,9 +11,9 @@ import MenuIcon from '@material-ui/icons/Menu';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import EventNoteIcon from '@material-ui/icons/EventNote';
 import ListAltIcon from '@material-ui/icons/ListAlt';
+import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
 import {Link} from '@reach/router';
-import Container from '@material-ui/core/Container';
-import Typography from '@material-ui/core/Typography';
+import Divider from '@material-ui/core/Divider';
 
 const drawerWidth = 180;
 
@@ -72,16 +72,26 @@ function SideDrawer(props) {
 
   const drawer = (
     <div>
+      
       <div className={classes.toolbar} />
       <List>
+          <Divider/>
+          {/* Side drawer content, links to other components in the router */}
+          <ListItem button component={Link} to="/app/Main">
+            <ListItemText primary={"Main"} />
+            <ListItemIcon><FormatListNumberedIcon style={{ color: "#fffbff" }}/></ListItemIcon>
+          </ListItem>
+          <Divider/>
           <ListItem button component={Link} to="/app/Calendar">
             <ListItemText primary={"Calendar"} />
             <ListItemIcon><EventNoteIcon style={{ color: "#fffbff" }}/></ListItemIcon>
           </ListItem>
+          <Divider/>
           <ListItem button component={Link} to="/app/Topics">
             <ListItemText primary={"Topic Groups"} />
             <ListItemIcon><ListAltIcon style={{ color: "#fffbff" }} /></ListItemIcon>
           </ListItem>
+          <Divider/>
       </List>
     </div>
   );

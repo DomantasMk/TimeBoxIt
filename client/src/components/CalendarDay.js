@@ -4,11 +4,8 @@ import { ViewState } from '@devexpress/dx-react-scheduler';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Scheduler,
-  WeekView,
-  MonthView,
   DayView,
   Appointments,
-  ViewSwitcher,
   Toolbar,
   DateNavigator,
 } from '@devexpress/dx-react-scheduler-material-ui';
@@ -21,38 +18,30 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     marginTop:1,
     elevation:10,
-    padding: theme.spacing(1),
-    [theme.breakpoints.up('sm')]: {
-      //marginLeft: 180,
-    },
+    height:100,
     [theme.breakpoints.down('xs')]: {
-      marginTop:theme.spacing(5),
-    }
+        display:'none',
+      }
   },
 }));
 
 export default function Calendar(){
   const [data, setData] = React.useState([]);
-  const [currentDate, setCurrentDate] = React.useState(format(new Date(), 'yyyy-MM-dd'));
+  const [currentDate] = React.useState(format(new Date(), 'yyyy-MM-dd'));
 
   const classes = useStyles();
 
     return (
       <div className={classes.Calendar}>
 
-        <Paper>
+        <Paper style={{height:'97vh'}}>
           <Scheduler
             data={data}
-            height={760}
+            height={'auto'}
           >
             <ViewState
               defaultCurrentDate={currentDate}
-              defaultCurrentViewName="Month"
-            />
-            <MonthView />
-            <WeekView
-              startDayHour={10}
-              endDayHour={19}
+              defaultCurrentViewName="Day"
             />
             <DayView
               startDayHour={6}
@@ -60,7 +49,6 @@ export default function Calendar(){
             />
             <Toolbar />
             <DateNavigator/>
-            <ViewSwitcher />
             <Appointments />
           </Scheduler>
         </Paper>
