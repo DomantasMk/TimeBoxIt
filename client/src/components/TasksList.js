@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, useEffect } from 'react'
 import TaskContainer from './TaskContainer';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import IconButton from '@material-ui/core/IconButton';
@@ -9,8 +9,9 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
+import axios from "axios";
 
-let tasksList = [{
+/*let tasksList = [{
     id:1,
     title:"TaskTitle",
     description:"descriptionero",
@@ -22,17 +23,40 @@ let tasksList = [{
     description:"descriptionero2",
     date:"DATE2",
 }]
+*/
 const useStyles = makeStyles((theme) => ({
     AddButton: {
         display:"flex",
         justifyContent:'center',
     },
+    list:{
+    }
   }));
 
 export default function TasksList() {
     const classes = useStyles();
     const [checked, setChecked] = React.useState([0]);
-  
+    const [tasksList, setTasksList] = React.useState([]);
+
+    useEffect(() => {
+
+          axios({
+            url: 'http://localhost:5000/graphiql',
+            method: 'post',
+            data: {
+                query: `
+                  query {tasks{
+                    _id
+                    date
+                    description
+                    title
+                  }}
+                  `
+              }
+          }).then((result) => {
+            setTasksList(result.data.data.tasks);
+          }).catch((err) =>{console.log(err)});
+        });
     const handleToggle = (value) => () => {
       const currentIndex = checked.indexOf(value);
       const newChecked = [...checked];
@@ -49,10 +73,10 @@ export default function TasksList() {
     return (
         
         <React.Fragment>
-            <List>
+            <List class={classes.list}>
             {tasksList.map( task =>{
                  const labelId = `checkbox-list-label-${task}`;
-                 return <ListItem onClick={handleToggle(task)} key={task.id} >
+                 return <ListItem onClick={handleToggle(task)} key={task._id} >
                             <ListItemIcon>
                             <Checkbox
                                 edge="start"

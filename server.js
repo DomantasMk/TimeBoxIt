@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const isAuth = require('./middleware/is-authenticated');
-
+var cors = require('cors')
 const graphqlHttp = require ('express-graphql');
 
 const items = require('./routes/api/roadmapItems');
@@ -11,8 +11,9 @@ const graphqlResolver = require('./graphql/Resolvers/mainResolver');
 
 const app = express();
 
+app.use(cors());
 //bodyparser
-app.use(express.json())
+app.use(express.json());
 
 app.use(isAuth);
 
@@ -28,7 +29,7 @@ mongoose.connect(dbKey)
 
 
 // Use Routes 
-//app.use('/api/items', items);
+app.use('/api/items', items);
 
 const tasks = []
 
