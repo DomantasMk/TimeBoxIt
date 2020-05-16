@@ -42,6 +42,7 @@ type RootQuery{
 type RootMutation{
     createTask(taskInput: TaskInput): Task
     updateTask(id: ID!, taskInput: TaskInput): Task
+    deleteTask(id: ID!): Boolean
     createUser(userInput: UserInput): User
 }
 
