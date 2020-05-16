@@ -13,6 +13,10 @@ const taskSchema = Schema({
     date:{
         type:String,
         require:false,
+    },
+    state:{
+        type:Boolean,
+        require:false,
     }
 })
 module.exports = task = mongoose.model('Task', taskSchema);

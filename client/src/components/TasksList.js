@@ -35,11 +35,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function TasksList() {
     const classes = useStyles();
-    const [checked, setChecked] = React.useState([0]);
     const [tasksList, setTasksList] = React.useState([]);
 
     useEffect(() => {
-
           axios({
             url: 'http://localhost:5000/graphiql',
             method: 'post',
@@ -50,24 +48,38 @@ export default function TasksList() {
                     date
                     description
                     title
+                    state
                   }}
                   `
               }
           }).then((result) => {
             setTasksList(result.data.data.tasks);
+
           }).catch((err) =>{console.log(err)});
-        });
-    const handleToggle = (value) => () => {
-      const currentIndex = checked.indexOf(value);
-      const newChecked = [...checked];
-  
-      if (currentIndex === -1) {
-        newChecked.push(value);
-      } else {
-        newChecked.splice(currentIndex, 1);
+        },[]);
+    const handleToggle = (task) => () => {
+      let newState = false;
+      if(!task.state){
+        newState = true;
       }
-  
-      setChecked(newChecked);
+      let query = `
+      mutation{
+        updateTask(id:"${task._id}",taskInput:{state:${newState}}){
+          state
+        }
+      }`;
+      axios({
+        url: 'http://localhost:5000/graphiql',
+        method: 'post',
+        data: {
+            query: query
+          }
+      }).then((result) => {
+        let index = tasksList.indexOf(task);
+        let newList = tasksList;
+        newList[index].state = newState;
+        setTasksList([...newList]);
+      }).catch((err) =>{console.log(err)});
     };
     
     return (
@@ -75,16 +87,16 @@ export default function TasksList() {
         <React.Fragment>
             <List class={classes.list}>
             {tasksList.map( task =>{
-                 const labelId = `checkbox-list-label-${task}`;
                  return <ListItem onClick={handleToggle(task)} key={task._id} >
                             <ListItemIcon>
                             <Checkbox
                                 edge="start"
-                                checked={checked.indexOf(task) !== -1}
+                                checked={task.state}
                                 tabIndex={-1}
                                 disableRipple
                                 inputProps={{ 'aria-labelledby': task }}
                             />
+
                             </ListItemIcon>
                             <ListItemText
                             primary={task.title}

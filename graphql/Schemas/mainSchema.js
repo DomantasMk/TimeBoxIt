@@ -6,6 +6,7 @@ type Task {
     title: String!
     description: String
     date: String
+    state: Boolean
 }
 
 type User {
@@ -21,9 +22,10 @@ type AuthenticationData {
 }
 
 input TaskInput {
-    title: String!
+    title: String
     description: String
     date: String
+    state: Boolean
 }
 
 input UserInput{
@@ -39,6 +41,7 @@ type RootQuery{
 
 type RootMutation{
     createTask(taskInput: TaskInput): Task
+    updateTask(id: ID!, taskInput: TaskInput): Task
     createUser(userInput: UserInput): User
 }
 

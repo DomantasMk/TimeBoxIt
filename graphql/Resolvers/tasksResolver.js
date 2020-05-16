@@ -13,6 +13,7 @@ module.exports = {
             title: args.taskInput.title,
             description : args.taskInput.description,
             date: args.taskInput.date,
+            state: args.taskInput.state,
         });
         //return so it will be excetuted in async
         return task
@@ -22,7 +23,7 @@ module.exports = {
             return User.findById(req.userId)
         })
         .then(user =>{
-            if (!user) {
+           if (!user) {
                 throw new Error ("Your User doesnt exist");
             }
             user.addedTasks.push(task);
@@ -34,4 +35,10 @@ module.exports = {
         })
         .catch((err) =>{console.log(err); throw err;});
     },
+    updateTask : (args, req) =>{
+    //if(!req.isAuth){
+    //    throw new Error("Not authorized");
+    //}
+    return Task.findOneAndUpdate({_id: args.id}, args.taskInput, {new:true}).then(a => a);
+    }
 }
