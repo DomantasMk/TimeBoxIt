@@ -12,6 +12,7 @@ type Task {
 type User {
     _id: ID!
     email: String!
+    username: String!
     password: String
     addedTasks: [Task!]
 }
@@ -30,6 +31,7 @@ input TaskInput {
 
 input UserInput{
     email: String!
+    username: String!
     password: String!
 }
 
@@ -37,6 +39,7 @@ type RootQuery{
     tasks: [Task!]!
     users: [User!]
     login(email: String!, password: String!): AuthenticationData!
+    authenticate(token: String!): Boolean
 }
 
 type RootMutation{

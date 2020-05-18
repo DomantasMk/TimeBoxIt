@@ -1,7 +1,10 @@
 const Task = require('../../models/task');
 const User = require('../../models/user')
 module.exports = {
-    tasks: () =>{
+    tasks: (args,req) =>{
+        if(!req.isAuth){
+            throw new Error("Not authorized");
+        }
         return Task.find();
     },
     createTask: (args, req) =>{

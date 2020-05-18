@@ -19,6 +19,7 @@ module.exports = {
         .then(hashedPassword => {
             const user = new User({
                 email: args.userInput.email,
+                username: args.userInput.username,
                 password: hashedPassword
 
             });
@@ -34,7 +35,9 @@ module.exports = {
     },
     login: async ({email, password}) =>{
         const user = await User.findOne({email: email});
+
         if(!user){
+            //rework into custom error messages with status codes
             throw new Error('User does not exist!');
         }
         const PasswordMatches = await bcrypt.compare(password, user.password);
@@ -42,10 +45,22 @@ module.exports = {
             throw new Error('Password is incorrect');
         }
         const token = jsonWebToken.sign({userId: user.id, email: user.email}, 'ThisIsAKeyForHashingTheTokenForSecurity',
-        {expiresIn: '1h'});
+        {expiresIn: '1000h'});
 
         return {userId: user.id,
                 token:token,
-                tokenExpiration: 1}
+                tokenExpiration: 1000}
+    },
+    authenticate: ({token}, req) =>{
+        try{
+            tokenVerification = jsonWebToken.verify(token, 'ThisIsAKeyForHashingTheTokenForSecurity');
+        }
+        catch{
+            return false;
+        }
+        if(!tokenVerification){
+            return false;
+        }
+        return true;
     }
 }

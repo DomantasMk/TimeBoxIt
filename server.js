@@ -12,6 +12,7 @@ const graphqlResolver = require('./graphql/Resolvers/mainResolver');
 const app = express();
 
 app.use(cors());
+
 //bodyparser
 app.use(express.json());
 
