@@ -1,6 +1,6 @@
 import React, { Component, useEffect } from 'react'
 import TaskContainer from './TaskContainer';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
+import AddIcon from '@material-ui/icons/Add';
 import IconButton from '@material-ui/core/IconButton';
 import { makeStyles, withStyles} from '@material-ui/core/styles';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -98,11 +98,30 @@ export default function TasksList() {
           }
       }).then((result) => {
         let index = tasksList.indexOf(task);
-        let newList = tasksList.splice(index, 1);;
+        let newList = tasksList;
+        newList.splice(index, 1);
         setTasksList([...newList]);
       }).catch((err) =>{console.log(err)});
     }
-    
+    const addTask = () =>{
+
+      let query = `
+      mutation{
+        createTask(taskInput:{title:"ToDo"}){
+          _id
+          title
+        }
+      }`;
+      axios({
+        url: 'http://localhost:5000/graphiql',
+        method: 'post',
+        data: {
+            query: query
+          }
+      }).then((result) => {
+        setTasksList([...tasksList, result.data.data.createTask]);
+      }).catch((err) =>{console.log(err)});
+    }
     return (
         
         <React.Fragment>
@@ -123,10 +142,10 @@ export default function TasksList() {
                             primary={task.title}
                             secondary={task.date}
                             />
-                            <Fab style={{marginRight:10}} color="secondary" aria-label="edit" size="small" >
+                            <Fab style={{marginRight:10}} color="primary" aria-label="edit" size="small" >
                               <EditIcon style={{color:"white"}}/>
                             </Fab>
-                            <Fab color="secondary" aria-label="edit" size="small" onClick={deleteTask(task)}>
+                            <Fab color="primary" aria-label="edit" size="small" onClick={deleteTask(task)}>
                               <DeleteForeverIcon style={{color:"white"}}/>
 
                             </Fab>
@@ -136,9 +155,9 @@ export default function TasksList() {
             }
             </List>
             <div class={classes.AddButton}>
-                <IconButton aria-label="Add" >
-                    <AddCircleIcon fontSize={"large"} color={"primary"} />
-                </IconButton>
+                <Fab style={{marginBottom:10}} aria-label="Add" color="primary" size="small" onClick={addTask}>
+                    <AddIcon fontSize={"large"} style={{color:"white"}} />
+                </Fab>
             </div>
 
 

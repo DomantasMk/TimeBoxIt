@@ -23,7 +23,7 @@ type AuthenticationData {
 }
 
 input TaskInput {
-    title: String
+    title: String!
     description: String
     date: String
     state: Boolean

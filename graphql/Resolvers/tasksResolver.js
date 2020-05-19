@@ -1,11 +1,18 @@
 const Task = require('../../models/task');
-const User = require('../../models/user')
+const User = require('../../models/user');
+const mongoose = require('mongoose');
+
 module.exports = {
     tasks: (args,req) =>{
         if(!req.isAuth){
             throw new Error("Not authorized");
         }
-        return Task.find();
+        return User.findById(req.userId).then(user =>{
+             if (!user) {
+                 throw new Error ("Your User doesnt exist");
+             }
+             return Task.find().where('_id').in(user.addedTasks);
+        })
     },
     createTask: (args, req) =>{
         if(!req.isAuth){

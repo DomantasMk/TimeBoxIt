@@ -37,7 +37,7 @@ const App = () => {
                 <Router basepath="/app">
                         {!state.isAuth && <Login path="/Login" />}
                         {!state.isAuth && <Register path="/Register" />}
-                        {!state.isAuth && <Redirect path="/" to="/app/Login" default/>}
+                        {/*!state.isAuth && <Redirect path="/" to="/app/Login" default/>*/}
                         {state.isAuth && <Redirect path="/" to="/app/Main" default/>}
                         {state.isAuth &&
                         <SideDrawer path="/">

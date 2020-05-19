@@ -1,7 +1,7 @@
 const jsonWebToken = require('jsonwebtoken');
 const axios = require('axios');
 const setAuthToken = async () => {
-    let token = localStorage.getItem('tokene');
+    let token = localStorage.getItem('token');
     let query = `
     query{
         authenticate(token:"${token}")
