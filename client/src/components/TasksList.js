@@ -29,6 +29,7 @@ export default function TasksList() {
     const classes = useStyles(theme);
     const [tasksList, setTasksList] = React.useState([]);
     const [modalState, setModalState] = React.useState(false);
+    const [taskInEdit, setTaskInEdit] = React.useState({}); // problemos su task in edit, antra kart kai editini nepaima reikiamo tasko
 
     useEffect(() => {
           axios({
@@ -49,7 +50,7 @@ export default function TasksList() {
             setTasksList(result.data.data.tasks);
 
           }).catch((err) =>{console.log(err)});
-        },[]);
+        },[modalState]);
     const handleToggle = (task) => () => {
       console.log(task);
       let newState = false;
@@ -112,10 +113,13 @@ export default function TasksList() {
         setTasksList([...tasksList, result.data.data.createTask]);
       }).catch((err) =>{console.log(err)});
     }
-    const openEdit = () =>{
+    const openEdit = (task) =>{
+      setTaskInEdit(task);
       setModalState(true);
+
     }
     const closeEdit = () =>{
+      setTaskInEdit({});
       setModalState(false);
     }
     return (
@@ -138,7 +142,7 @@ export default function TasksList() {
                             primary={task.title}
                             secondary={task.date}
                             />
-                            <Fab style={{marginRight:10}} color="primary" aria-label="edit" size="small" onClick={openEdit}>
+                            <Fab style={{marginRight:10}} color="primary" aria-label="edit" size="small" onClick={() =>{openEdit(task)}}>
                               <EditIcon style={{color:"white"}}/>
                             </Fab>
                             <Fab color="primary" aria-label="edit" size="small" onClick={deleteTask(task)}>
@@ -155,7 +159,7 @@ export default function TasksList() {
                     <AddIcon fontSize={"large"} style={{color:"white"}} />
                 </Fab>
             </div>
-            <Modal openState={modalState} close={closeEdit}/>
+            <Modal openState={modalState} close={closeEdit} task={taskInEdit}/>
 
 
         </React.Fragment>
