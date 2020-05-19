@@ -14,6 +14,14 @@ const taskSchema = Schema({
         type:String,
         require:false,
     },
+    from:{
+        type:String,
+        require:false
+    },
+    to:{
+        type:String,
+        require:false,
+    },
     state:{
         type:Boolean,
         require:false,

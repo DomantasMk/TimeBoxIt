@@ -38,7 +38,7 @@ function Login() {
         ...prevState,
         [name]: value
     }));
-    };
+    }
     const handleSubmit = () =>{
         let query = `
         query{

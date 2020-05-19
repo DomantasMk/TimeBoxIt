@@ -14,20 +14,8 @@ import Fab from '@material-ui/core/Fab';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import theme from '../styles/mainTheme';
+import Modal from './TaskEditDialog';
 
-/*let tasksList = [{
-    id:1,
-    title:"TaskTitle",
-    description:"descriptionero",
-    date:"DATE",
-},
-{
-    id:2,
-    title:"TaskTitle2",
-    description:"descriptionero2",
-    date:"DATE2",
-}]
-*/
 const useStyles = makeStyles((theme) => ({
     AddButton: {
         display:"flex",
@@ -40,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
 export default function TasksList() {
     const classes = useStyles(theme);
     const [tasksList, setTasksList] = React.useState([]);
+    const [modalState, setModalState] = React.useState(false);
 
     useEffect(() => {
           axios({
@@ -62,6 +51,7 @@ export default function TasksList() {
           }).catch((err) =>{console.log(err)});
         },[]);
     const handleToggle = (task) => () => {
+      console.log(task);
       let newState = false;
       if(!task.state){
         newState = true;
@@ -122,6 +112,12 @@ export default function TasksList() {
         setTasksList([...tasksList, result.data.data.createTask]);
       }).catch((err) =>{console.log(err)});
     }
+    const openEdit = () =>{
+      setModalState(true);
+    }
+    const closeEdit = () =>{
+      setModalState(false);
+    }
     return (
         
         <React.Fragment>
@@ -142,7 +138,7 @@ export default function TasksList() {
                             primary={task.title}
                             secondary={task.date}
                             />
-                            <Fab style={{marginRight:10}} color="primary" aria-label="edit" size="small" >
+                            <Fab style={{marginRight:10}} color="primary" aria-label="edit" size="small" onClick={openEdit}>
                               <EditIcon style={{color:"white"}}/>
                             </Fab>
                             <Fab color="primary" aria-label="edit" size="small" onClick={deleteTask(task)}>
@@ -159,6 +155,7 @@ export default function TasksList() {
                     <AddIcon fontSize={"large"} style={{color:"white"}} />
                 </Fab>
             </div>
+            <Modal openState={modalState} close={closeEdit}/>
 
 
         </React.Fragment>

@@ -22,6 +22,8 @@ module.exports = {
         const task = new Task({
             title: args.taskInput.title,
             description : args.taskInput.description,
+            from: args.taskInput.from,
+            to: args.taskInput.to,
             date: args.taskInput.date,
             state: args.taskInput.state,
         });

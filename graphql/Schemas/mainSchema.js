@@ -5,6 +5,8 @@ type Task {
     _id: ID!
     title: String!
     description: String
+    from: String
+    to: String
     date: String
     state: Boolean
 }
@@ -23,8 +25,10 @@ type AuthenticationData {
 }
 
 input TaskInput {
-    title: String!
+    title: String
     description: String
+    from: String
+    to: String
     date: String
     state: Boolean
 }
