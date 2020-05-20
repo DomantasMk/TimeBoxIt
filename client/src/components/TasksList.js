@@ -43,6 +43,8 @@ export default function TasksList() {
                     description
                     title
                     state
+                    from
+                    to
                   }}
                   `
               }
@@ -98,9 +100,14 @@ export default function TasksList() {
 
       let query = `
       mutation{
-        createTask(taskInput:{title:"ToDo"}){
+        createTask(taskInput:{title:"Task ${tasksList.length + 1}",description:"",from:"00:00",to:"00:00",date:"${new Date()}"}){
           _id
+          date
+          description
           title
+          state
+          from
+          to
         }
       }`;
       axios({
@@ -114,6 +121,7 @@ export default function TasksList() {
       }).catch((err) =>{console.log(err)});
     }
     const openEdit = (task) =>{
+      console.log(task);
       setTaskInEdit(task);
       setModalState(true);
 

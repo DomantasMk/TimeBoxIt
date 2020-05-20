@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -6,13 +6,14 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { format } from 'date-fns'
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from '@date-io/date-fns';
 import axios from "axios";
 
+
+//sutvarky to from date loading
 export default function TaskEditDialog({task, openState, close}) {
-    const [state, setState] = useState({ title: task.title, description: task.description, from:task.from,to:task.to,date:new Date() });
+    const [state, setState] = useState({ title: task.title, description: task.description, from:task.from,to:task.to,date:task.date });
     const handleChange = e => {
     const { name, value } = e.target;
     setState(prevState => ({
@@ -20,16 +21,18 @@ export default function TaskEditDialog({task, openState, close}) {
         [name]: value
     }));
     }
+    useEffect(() =>{
+      setState({ title: task.title, description: task.description, from:task.from,to:task.to,date:task.date });
+    }, [task])
+
   const handleClose = () => {
-    console.log(task.title);
-    console.log(state.title);
+
     let query = `
     mutation{
       updateTask(id:"${task._id}", taskInput:{title:"${state.title}",description:"${state.description}",from:"${state.from}",to:"${state.to}",date:"${state.date}"}){
         _id
       }
     }`;
-    console.log(query);
     axios({
       url: 'http://localhost:5000/graphiql',
       method: 'post',
@@ -55,9 +58,12 @@ export default function TaskEditDialog({task, openState, close}) {
           <TextField autoFocus label="To" id="time" type="time" fullWidth defaultValue={task.to ? task.to : "00:00"} onChange={handleChange} name="to"/>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <KeyboardDatePicker
-              placeholder="2420/06/10"
+              placeholder="2010/06/10"
               value={state.date}
-              onChange={date => setState({date:date})}
+              onChange={date => setState(prevState => ({
+                ...prevState,
+                date: date
+            }))}
               format="yyyy/MM/dd"
               fullWidth
               style={{marginTop:"1em"}}
