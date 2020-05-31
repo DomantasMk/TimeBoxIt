@@ -1,7 +1,10 @@
-import * as React from 'react';
+import React,{useEffect} from 'react';
 import Paper from '@material-ui/core/Paper';
 import { ViewState } from '@devexpress/dx-react-scheduler';
 import { makeStyles } from '@material-ui/core/styles';
+import axios from 'axios';
+import makeTasks from '../components/utils/makeTasks';
+
 import {
   Scheduler,
   WeekView,
@@ -11,6 +14,7 @@ import {
   ViewSwitcher,
   Toolbar,
   DateNavigator,
+  AppointmentTooltip,
 } from '@devexpress/dx-react-scheduler-material-ui';
 import { format } from 'date-fns'
 
@@ -34,6 +38,28 @@ const useStyles = makeStyles((theme) => ({
 export default function Calendar(){
   const [data, setData] = React.useState([]);
   const [currentDate] = React.useState(format(new Date(), 'yyyy-MM-dd'));
+
+  useEffect(() => {
+    axios({
+      url: 'http://localhost:5000/graphiql',
+      method: 'post',
+      data: {
+          query: `
+            query {tasks{
+              _id
+              date
+              description
+              title
+              state
+              from
+              to
+            }}
+            `
+        }
+    }).then((result) => {
+      setData(makeTasks(result.data.data.tasks));
+    }).catch((err) =>{console.log(err)});
+  },[currentDate]);
 
   const classes = useStyles();
 
@@ -62,6 +88,7 @@ export default function Calendar(){
             <DateNavigator/>
             <ViewSwitcher />
             <Appointments />
+            <AppointmentTooltip/>
           </Scheduler>
         </Paper>
       </div>

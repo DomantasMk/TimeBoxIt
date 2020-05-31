@@ -25,36 +25,11 @@ const useStyles = makeStyles((theme) => ({
     }
   }));
 
-export default function TasksList() {
+export default function TasksList({tasksList,setTasksList,modalState,setModalState}) {
     const classes = useStyles(theme);
-    const [tasksList, setTasksList] = React.useState([]);
-    const [modalState, setModalState] = React.useState(false);
     const [taskInEdit, setTaskInEdit] = React.useState({}); // problemos su task in edit, antra kart kai editini nepaima reikiamo tasko
 
-    useEffect(() => {
-          axios({
-            url: 'http://localhost:5000/graphiql',
-            method: 'post',
-            data: {
-                query: `
-                  query {tasks{
-                    _id
-                    date
-                    description
-                    title
-                    state
-                    from
-                    to
-                  }}
-                  `
-              }
-          }).then((result) => {
-            setTasksList(result.data.data.tasks);
-
-          }).catch((err) =>{console.log(err)});
-        },[modalState]);
     const handleToggle = (task) => () => {
-      console.log(task);
       let newState = false;
       if(!task.state){
         newState = true;
@@ -121,7 +96,6 @@ export default function TasksList() {
       }).catch((err) =>{console.log(err)});
     }
     const openEdit = (task) =>{
-      console.log(task);
       setTaskInEdit(task);
       setModalState(true);
 
