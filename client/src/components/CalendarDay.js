@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React,{useEffect} from 'react';
 import Paper from '@material-ui/core/Paper';
 import { ViewState } from '@devexpress/dx-react-scheduler';
 import { makeStyles } from '@material-ui/core/styles';
@@ -9,7 +9,7 @@ import {
   Toolbar,
   DateNavigator,
 } from '@devexpress/dx-react-scheduler-material-ui';
-import { format } from 'date-fns'
+import makeTasks from './utils/makeTasks';
 
 const useStyles = makeStyles((theme) => ({
   Calendar: {
@@ -25,15 +25,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Calendar(){
-  const [data, setData] = React.useState([]);
-  const [currentDate] = React.useState(format(new Date(), 'yyyy-MM-dd'));
+export default function CalendarDay({currentDate, tasksList}){
+  const [data, setData] = React.useState(makeTasks(tasksList));
+  useEffect(() => {
+    setData(makeTasks(tasksList));
+  },[tasksList]);
 
   const classes = useStyles();
 
     return (
-      <div className={classes.Calendar}>
 
+      <div className={classes.Calendar}>
         <Paper style={{height:'97vh'}}>
           <Scheduler
             data={data}
