@@ -29,7 +29,7 @@ export default function TasksList() {
     const classes = useStyles(theme);
     const [tasksList, setTasksList] = React.useState([]);
     const [modalState, setModalState] = React.useState(false);
-    const [taskInEdit, setTaskInEdit] = React.useState({}); // problemos su task in edit, antra kart kai editini nepaima reikiamo tasko
+    const [taskInEdit, setTaskInEdit] = React.useState({});
 
     useEffect(() => {
           axios({
