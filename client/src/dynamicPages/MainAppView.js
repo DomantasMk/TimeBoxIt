@@ -41,10 +41,14 @@ export default function MainAppView() {
                 `
             }
         }).then((result) => {
-          setTasksList(result.data.data.tasks);
+          setTasksList(result.data.data.tasks.filter(task => {
+            let date = new Date(task.date);
+            let dateNeeded = parse(currentDate, "yyyy-MM-dd", new Date());
+            return date.getDate() == dateNeeded.getDate() && date.getMonth() == date.getMonth()
+          }));
 
         }).catch((err) =>{console.log(err)});
-      },[modalState]);
+      },[modalState, currentDate]);
     let addToDate = (amount) =>{
       let a = parse(currentDate, "yyyy-MM-dd",new Date());
       var result = add(a, {
@@ -57,7 +61,8 @@ export default function MainAppView() {
         <Box class={classes.List}>
             <Grid container spacing={1}>
                 <Grid item xs={12} sm={6} md={7} lg={8}>
-                    <div>
+                  
+                    <Paper>
                     <IconButton aria-label="delete" color="primary" onClick={() =>{addToDate(-1)}}>
                       <NavigateBeforeIcon />
                     </IconButton>
@@ -65,11 +70,11 @@ export default function MainAppView() {
                       <NavigateNextIcon />
                     </IconButton>
                     {currentDate}
-                    </div>
+                    </Paper>
                     <Paper><TaskList tasksList={tasksList} setTasksList={setTasksList} modalState={modalState} setModalState={setModalState}/></Paper>
                 </Grid>
                 <Grid item xs={0} sm={6} md={5} lg={4}>
-                    <Paper><CalendarDay currentDate={currentDate} tasksList={tasksList}/></Paper>
+                    <Paper><CalendarDay currentDate={currentDate} tasksList={tasksList} setCurrentDate={setCurrentDate}/></Paper>
                 </Grid>
             </Grid>
         </Box>

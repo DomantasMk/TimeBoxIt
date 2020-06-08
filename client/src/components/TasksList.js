@@ -27,8 +27,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function TasksList({tasksList,setTasksList,modalState,setModalState}) {
     const classes = useStyles(theme);
-    const [tasksList, setTasksList] = React.useState([]);
-    const [modalState, setModalState] = React.useState(false);
     const [taskInEdit, setTaskInEdit] = React.useState({});
 
     const handleToggle = (task) => () => {

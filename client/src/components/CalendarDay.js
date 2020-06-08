@@ -10,6 +10,7 @@ import {
   DateNavigator,
 } from '@devexpress/dx-react-scheduler-material-ui';
 import makeTasks from './utils/makeTasks';
+import {format} from 'date-fns';
 
 const useStyles = makeStyles((theme) => ({
   Calendar: {
@@ -25,11 +26,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CalendarDay({currentDate, tasksList}){
+export default function CalendarDay({currentDate, tasksList, setCurrentDate}){
   const [data, setData] = React.useState(makeTasks(tasksList));
   useEffect(() => {
     setData(makeTasks(tasksList));
-  },[tasksList]);
+  },[tasksList, currentDate]);
 
   const classes = useStyles();
 
@@ -44,6 +45,7 @@ export default function CalendarDay({currentDate, tasksList}){
             <ViewState
               defaultCurrentDate={currentDate}
               defaultCurrentViewName="Day"
+              onCurrentDateChange={date => {setCurrentDate(format(date, "yyyy-MM-dd"))}}
             />
             <DayView
               startDayHour={6}
