@@ -7,6 +7,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
+import Divider from '@material-ui/core/Divider'
 
 const useStyles = makeStyles((theme) => ({
     TopicContainer: {
@@ -16,13 +17,13 @@ const useStyles = makeStyles((theme) => ({
       }
     },
     actionArea:{
-      padding:theme.spacing(1),
+      padding:theme.spacing(0),
       paddingLeft:theme.spacing(3),
       paddingRight:theme.spacing(3),
     }
   }));
 
-export default function TopicContainer({topic:{TopicName,dailyTasks,tasksDone,type,tasksFailed}}) {
+export default function TopicContainer({topic:{title,description}}) {
    
     const classes = useStyles();
     return (
@@ -31,15 +32,17 @@ export default function TopicContainer({topic:{TopicName,dailyTasks,tasksDone,ty
           <Card width={1} class={classes.TopicContainer}>
             <CardActionArea>
               <CardContent>
-                  <Typography gutterBottom variant="h4" component="h4">{TopicName}</Typography>
-                  <Typography variant="body1" component="p">{type} tasks: {dailyTasks}</Typography>
+                  <Typography gutterBottom variant="h4" component="h4">{title}</Typography>
+                  <Typography variant="body1" component="p">{description}</Typography>
 
-                  <Typography variant="body1" component="p">Finished: {tasksDone}</Typography>
-                  <Typography variant="body1" component="p">Failed: {tasksFailed}</Typography>
+                  <Typography variant="body1" component="p">Finished: 0</Typography>
+                  <Typography variant="body1" component="p">Failed: 0</Typography>
                 </CardContent>
             </CardActionArea>
           </Card>
+
         </Paper>
+        <Divider/>
       </div>
 
 

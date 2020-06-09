@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
             }
         }).then((result) => {
            if(result){
-               navigate("app/Login");
+               navigate("Login");
            }else{
                alert("Something went wrong")
            }

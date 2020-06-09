@@ -7,7 +7,8 @@ module.exports = {
     users: () =>{
         //Return password should be null
         return User.find().populate('addedTasks');
-    },  createUser: (args) =>{
+    },  
+    createUser: (args) =>{
         return User.findOne({email: args.userInput.email}).then(user =>{
             if(user){
                 throw new Error('User exists already.');

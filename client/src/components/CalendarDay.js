@@ -43,7 +43,7 @@ export default function CalendarDay({currentDate, tasksList, setCurrentDate}){
             height={'auto'}
           >
             <ViewState
-              defaultCurrentDate={currentDate}
+              currentDate={currentDate}
               defaultCurrentViewName="Day"
               onCurrentDateChange={date => {setCurrentDate(format(date, "yyyy-MM-dd"))}}
             />

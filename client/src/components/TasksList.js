@@ -1,5 +1,4 @@
 import React, { Component, useEffect } from 'react'
-import TaskContainer from './TaskContainer';
 import AddIcon from '@material-ui/icons/Add';
 import IconButton from '@material-ui/core/IconButton';
 import { makeStyles, withStyles} from '@material-ui/core/styles';
@@ -122,7 +121,7 @@ export default function TasksList({tasksList,setTasksList,modalState,setModalSta
                             </ListItemIcon>
                             <ListItemText
                             primary={task.title}
-                            secondary={task.date}
+                            secondary={task.description}
                             />
                             <Fab style={{marginRight:10}} color="primary" aria-label="edit" size="small" onClick={() =>{openEdit(task)}}>
                               <EditIcon style={{color:"white"}}/>

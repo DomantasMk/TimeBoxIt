@@ -1,23 +1,10 @@
-import React, { Component } from 'react'
+import React, { Component, useEffect, useState } from 'react'
 import TopicContainer from '../components/TopicContainer';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
-import IconButton from '@material-ui/core/IconButton';
+import AddIcon from '@material-ui/icons/Add';
 import { makeStyles} from '@material-ui/core/styles';
+import axios from 'axios';
+import Fab from '@material-ui/core/Fab';
 
-let topicsList = [{
-    TopicName:"workingOut",
-    dailyTasks:2,
-    tasksDone:10,
-    tasksFailed:5,
-    type:"daily/weekly/biweekly/monthly"
-},
-{
-    TopicName:"workingOut",
-    dailyTasks:2,
-    tasksDone:10,
-    tasksFailed:5,
-    type:"daily/weekly/biweekly/monthly"
-}]
 const useStyles = makeStyles((theme) => ({
     AddButton: {
         display:"flex",
@@ -26,6 +13,47 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 export default function TopicsList() {
+    const [topicsList, setTopicsList] = React.useState([]);
+
+    useEffect(() => {
+        axios({
+          url: 'http://localhost:5000/graphiql',
+          method: 'post',
+          data: {
+              query: `
+              query{
+                topics{
+                  title
+                  description
+                }
+              }
+                `
+            }
+        }).then((result) => {
+            console.log(result);
+          setTopicsList(result.data.data.topics);
+
+        }).catch((err) =>{console.log(err)});
+      },[]);
+      const addTask = () =>{
+        let query = `
+        mutation{
+            createTopic(topicInput:{title:"Topic ${topicsList.length + 1}",description:"Unknown"}){
+              title
+              description
+            }
+          }
+          `;
+        axios({
+          url: 'http://localhost:5000/graphiql',
+          method: 'post',
+          data: {
+              query: query
+            }
+        }).then((result) => {
+            setTopicsList([...topicsList, result.data.data.createTopic]);
+        }).catch((err) =>{console.log(err)});
+      }
     const classes = useStyles();
     return (
         <React.Fragment>
@@ -33,10 +61,11 @@ export default function TopicsList() {
                 return <TopicContainer topic={topic}/>
             })
             }
+
             <div class={classes.AddButton}>
-                <IconButton aria-label="Add" >
-                    <AddCircleIcon fontSize={"large"} color={"primary"} />
-                </IconButton>
+            <Fab style={{margin:10}} aria-label="Add" color="primary" size="small" onClick={addTask}>
+                    <AddIcon fontSize={"large"} style={{color:"white"}} />
+                </Fab>
             </div>
 
 

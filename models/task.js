@@ -25,6 +25,10 @@ const taskSchema = Schema({
     state:{
         type:Boolean,
         require:false,
+    },
+    topic:{
+        type: Schema.Types.ObjectId,
+        ref: 'Topic'
     }
 })
 module.exports = task = mongoose.model('Task', taskSchema);

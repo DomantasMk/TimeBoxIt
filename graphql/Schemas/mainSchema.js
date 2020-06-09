@@ -23,6 +23,11 @@ type AuthenticationData {
     token: String!
     tokenExpiration: Int!
 }
+type Topic {
+    _id: ID!
+    title: String!
+    description: String
+}
 
 input TaskInput {
     title: String
@@ -39,9 +44,15 @@ input UserInput{
     password: String!
 }
 
+input TopicInput{
+    title: String
+    description: String
+}
+
 type RootQuery{
     tasks: [Task!]!
     users: [User!]
+    topics: [Topic!]
     login(email: String!, password: String!): AuthenticationData!
     authenticate(token: String!): Boolean
 }
@@ -50,6 +61,9 @@ type RootMutation{
     createTask(taskInput: TaskInput): Task
     updateTask(id: ID!, taskInput: TaskInput): Task
     deleteTask(id: ID!): Boolean
+    createTopic(topicInput: TopicInput): Topic
+    updateTopic(id: ID!, topicInput: TopicInput): Topic
+    deleteTopic(id: ID!): Boolean
     createUser(userInput: UserInput): User
 }
 

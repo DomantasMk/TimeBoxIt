@@ -19,7 +19,13 @@ const userSchema = new Schema({
             type: Schema.Types.ObjectId,
             ref: 'Task'
         }
-    ]
+    ],
+    addedTopics:[
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Topic'
+        }
+    ],
 
 });
 module.exports = user = mongoose.model("User", userSchema);

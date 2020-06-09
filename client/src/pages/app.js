@@ -12,7 +12,7 @@ import Main from '../dynamicPages/MainAppView';
 import authContext from "../context/auth-context";
 import auth from "../components/utils/auth";
 import {navigate} from '@reach/router';
-
+import Profile from '../dynamicPages/Profile';
 
 const App = () => {
     const [state, setState] = useState({token:localStorage.getItem('token'),userID:localStorage.getItem('userID'), isAuth:false})
@@ -44,6 +44,7 @@ const App = () => {
                             <Calendar path="/Calendar" />
                             <TopicsList path="/Topics"/>
                             <Main path="/Main"/>
+                            <Profile path="/Profile"/>
                         </SideDrawer>}
                 </Router>
             </authContext.Provider>
