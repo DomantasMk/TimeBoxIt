@@ -37,6 +37,10 @@ export default function MainAppView() {
                   state
                   from
                   to
+                  topic{
+                    _id
+                    title
+                  }
                 }}
                 `
             }
@@ -58,7 +62,7 @@ export default function MainAppView() {
     }
     const classes = useStyles();
     return (
-        <Box class={classes.List}>
+        <Box className={classes.List}>
             <Grid container spacing={1}>
                 <Grid item xs={12} sm={6} md={7} lg={8}>
                   
@@ -73,7 +77,7 @@ export default function MainAppView() {
                     </Paper>
                     <Paper><TaskList tasksList={tasksList} setTasksList={setTasksList} modalState={modalState} setModalState={setModalState}/></Paper>
                 </Grid>
-                <Grid item xs={0} sm={6} md={5} lg={4}>
+                <Grid item sm={6} md={5} lg={4}>
                     <Paper><CalendarDay currentDate={currentDate} tasksList={tasksList} setCurrentDate={setCurrentDate}/></Paper>
                 </Grid>
             </Grid>

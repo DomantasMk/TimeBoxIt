@@ -21,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
         justifyContent:'center',
     },
     list:{
+      marginTop:10,
     }
   }));
 
@@ -106,7 +107,7 @@ export default function TasksList({tasksList,setTasksList,modalState,setModalSta
     return (
         
         <React.Fragment>
-            <List class={classes.list}>
+            <List className={classes.list}>
             {tasksList.map( task =>{
                  return <ListItem key={task._id} >
                             <ListItemIcon onClick={handleToggle(task)}>
@@ -135,7 +136,7 @@ export default function TasksList({tasksList,setTasksList,modalState,setModalSta
             })
             }
             </List>
-            <div class={classes.AddButton}>
+            <div className={classes.AddButton}>
                 <Fab style={{marginBottom:10}} aria-label="Add" color="primary" size="small" onClick={addTask}>
                     <AddIcon fontSize={"large"} style={{color:"white"}} />
                 </Fab>

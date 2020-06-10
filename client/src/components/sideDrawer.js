@@ -14,6 +14,7 @@ import ListAltIcon from '@material-ui/icons/ListAlt';
 import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
 import {Link} from '@reach/router';
 import Divider from '@material-ui/core/Divider';
+import AccountBoxIcon from '@material-ui/icons/AccountBox';
 
 const drawerWidth = 180;
 
@@ -77,6 +78,11 @@ function SideDrawer(props) {
       <List>
           <Divider/>
           {/* Side drawer content, links to other components in the router */}
+          <ListItem button component={Link} to="/app/Profile">
+            <ListItemText primary={"Profile"} />
+            <ListItemIcon><AccountBoxIcon style={{ color: "#fffbff" }}/></ListItemIcon>
+          </ListItem>
+          <Divider/>
           <ListItem button component={Link} to="/app/Main">
             <ListItemText primary={"Main"} />
             <ListItemIcon><FormatListNumberedIcon style={{ color: "#fffbff" }}/></ListItemIcon>

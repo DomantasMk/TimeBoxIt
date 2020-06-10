@@ -4,7 +4,7 @@ import AddIcon from '@material-ui/icons/Add';
 import { makeStyles} from '@material-ui/core/styles';
 import axios from 'axios';
 import Fab from '@material-ui/core/Fab';
-
+import Modal from '../components/TopicEditDialog';
 const useStyles = makeStyles((theme) => ({
     AddButton: {
         display:"flex",
@@ -14,8 +14,10 @@ const useStyles = makeStyles((theme) => ({
 
 export default function TopicsList() {
     const [topicsList, setTopicsList] = React.useState([]);
-
+    const [modalState, setModalState] = React.useState(false);
+    const [topicInEdit, setTopicInEdit] = React.useState({});
     useEffect(() => {
+      if(!modalState){
         axios({
           url: 'http://localhost:5000/graphiql',
           method: 'post',
@@ -25,17 +27,19 @@ export default function TopicsList() {
                 topics{
                   title
                   description
+                  _id
                 }
               }
                 `
             }
         }).then((result) => {
-            console.log(result);
           setTopicsList(result.data.data.topics);
 
         }).catch((err) =>{console.log(err)});
-      },[]);
-      const addTask = () =>{
+      }
+
+      },[modalState]);
+    const addTopic = () =>{
         let query = `
         mutation{
             createTopic(topicInput:{title:"Topic ${topicsList.length + 1}",description:"Unknown"}){
@@ -53,21 +57,30 @@ export default function TopicsList() {
         }).then((result) => {
             setTopicsList([...topicsList, result.data.data.createTopic]);
         }).catch((err) =>{console.log(err)});
-      }
+    }
+    const openEdit = (topic) =>{
+      setTopicInEdit(topic);
+      setModalState(true);
+  
+    }
+    const closeEdit = () =>{
+      setTopicInEdit({});
+      setModalState(false);
+    }
     const classes = useStyles();
     return (
         <React.Fragment>
             {topicsList.map( topic =>{
-                return <TopicContainer topic={topic}/>
+                return <TopicContainer topic={topic} openEdit={openEdit} key={topic._id}/>
             })
             }
 
-            <div class={classes.AddButton}>
-            <Fab style={{margin:10}} aria-label="Add" color="primary" size="small" onClick={addTask}>
+            <div className={classes.AddButton}>
+            <Fab style={{margin:10}} aria-label="Add" color="primary" size="small" onClick={addTopic}>
                     <AddIcon fontSize={"large"} style={{color:"white"}} />
                 </Fab>
             </div>
-
+            <Modal openState={modalState} close={closeEdit} topic={topicInEdit}/>
 
         </React.Fragment>
     )

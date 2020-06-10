@@ -23,17 +23,17 @@ const useStyles = makeStyles((theme) => ({
     }
   }));
 
-export default function TopicContainer({topic:{title,description}}) {
+export default function TopicContainer({topic, openEdit}) {
    
     const classes = useStyles();
     return (
-      <div class={classes.actionArea}>
-        <Paper>
-          <Card width={1} class={classes.TopicContainer}>
+      <div className={classes.actionArea}>
+        <Paper onClick={()=>{openEdit(topic)}}>
+          <Card width={1} className={classes.TopicContainer}>
             <CardActionArea>
               <CardContent>
-                  <Typography gutterBottom variant="h4" component="h4">{title}</Typography>
-                  <Typography variant="body1" component="p">{description}</Typography>
+                  <Typography gutterBottom variant="h4" component="h4">{topic.title}</Typography>
+                  <Typography variant="body1" component="p">{topic.description}</Typography>
 
                   <Typography variant="body1" component="p">Finished: 0</Typography>
                   <Typography variant="body1" component="p">Failed: 0</Typography>

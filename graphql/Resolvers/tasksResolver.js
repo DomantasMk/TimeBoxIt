@@ -11,7 +11,7 @@ module.exports = {
              if (!user) {
                  throw new Error ("Your User doesnt exist");
              }
-             return Task.find().where('_id').in(user.addedTasks);
+             return Task.find().where('_id').in(user.addedTasks).populate("topic");
         })
     },
     createTask: (args, req) =>{
@@ -26,6 +26,7 @@ module.exports = {
             to: args.taskInput.to,
             date: args.taskInput.date,
             state: args.taskInput.state,
+            topic: args.taskInput.topic,
         });
         //return so it will be excetuted in async
         return task

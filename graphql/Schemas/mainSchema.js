@@ -9,6 +9,7 @@ type Task {
     to: String
     date: String
     state: Boolean
+    topic: Topic
 }
 
 type User {
@@ -36,6 +37,7 @@ input TaskInput {
     to: String
     date: String
     state: Boolean
+    topic: String
 }
 
 input UserInput{

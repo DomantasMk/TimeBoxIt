@@ -9,11 +9,14 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from '@date-io/date-fns';
 import axios from "axios";
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import InputLabel from '@material-ui/core/InputLabel';
 
 
-//sutvarky to from date loading
 export default function TaskEditDialog({task, openState, close}) {
-    const [state, setState] = useState({ title: task.title, description: task.description, from:task.from,to:task.to,date:task.date });
+    const [state, setState] = useState({ title: task.title, description: task.description,topic:"", from:task.from,to:task.to,date:task.date });
+    const [topics, setTopics] = useState([]);
     const handleChange = e => {
     const { name, value } = e.target;
     setState(prevState => ({
@@ -22,14 +25,31 @@ export default function TaskEditDialog({task, openState, close}) {
     }));
     }
     useEffect(() =>{
-      setState({ title: task.title, description: task.description, from:task.from,to:task.to,date:task.date });
+      setState({ title: task.title, description: task.description,topic: task.topic, from:task.from, to:task.to, date:task.date });
     }, [task])
+    useEffect(() =>{
+      axios({
+        url: 'http://localhost:5000/graphiql',
+        method: 'post',
+        data: {
+            query: `
+            query{
+              topics{
+                _id
+                title
+              }
+            }
+              `
+          }
+      }).then((result) => {
+        setTopics(result.data.data.topics);
+      })
+    }, [])
 
   const handleClose = () => {
-
     let query = `
     mutation{
-      updateTask(id:"${task._id}", taskInput:{title:"${state.title}",description:"${state.description}",from:"${state.from}",to:"${state.to}",date:"${state.date}"}){
+      updateTask(id:"${task._id}", taskInput:{title:"${state.title}",description:"${state.description}",topic:"${state.topic}",from:"${state.from}",to:"${state.to}",date:"${state.date}"}){
         _id
       }
     }`;
@@ -54,6 +74,24 @@ export default function TaskEditDialog({task, openState, close}) {
           </DialogContentText>
           <TextField autoFocus label="Title" fullWidth defaultValue={task.title} onChange={handleChange} name="title"/>
           <TextField autoFocus label="Description" fullWidth defaultValue={task.description} onChange={handleChange} name="description"/>
+          <InputLabel shrink id="TopicId">
+            Topic
+          </InputLabel>
+          <Select
+            labelId="TopicId"
+            onChange={handleChange}
+            defaultValue={task.topic ? task.topic._id : ""}
+            displayEmpty
+            fullWidth
+            name="topic"
+          >
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            {topics.map(topic =>{
+              return <MenuItem value={topic._id} key={topic._id}>{topic.title}</MenuItem>
+            })}
+          </Select>
           <TextField autoFocus label="From" id="time" type="time" fullWidth defaultValue={task.from ? task.from : "00:00"} onChange={handleChange} name="from"/>
           <TextField autoFocus label="To" id="time" type="time" fullWidth defaultValue={task.to ? task.to : "00:00"} onChange={handleChange} name="to"/>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
