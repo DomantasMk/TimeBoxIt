@@ -30,7 +30,6 @@ export default function Profile() {
     return (
         <Box>
             <Grid container spacing={3}>
-
                 <Grid item xs={12}>
                     <UserInfo email={userDetails.email} username={userDetails.username}/>
                 </Grid>

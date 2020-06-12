@@ -4,8 +4,6 @@ const isAuth = require('./middleware/is-authenticated');
 var cors = require('cors')
 const graphqlHttp = require ('express-graphql');
 
-const items = require('./routes/api/roadmapItems');
-
 const graphqlSchema = require('./graphql/Schemas/mainSchema');
 const graphqlResolver = require('./graphql/Resolvers/mainResolver');
 
@@ -28,11 +26,6 @@ mongoose.connect(dbKey)
     .then(() => console.log("mongo connected"))
     .catch(err => console.log(err));
 
-
-// Use Routes 
-app.use('/api/items', items);
-
-const tasks = []
 
 //Graphql route
 // ! specifies that returning null is not an option
