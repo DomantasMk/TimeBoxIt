@@ -75,7 +75,7 @@ export default function MainAppView() {
                     </IconButton>
                     {currentDate}
                     </Paper>
-                    <Paper><TaskList tasksList={tasksList} setTasksList={setTasksList} modalState={modalState} setModalState={setModalState}/></Paper>
+                    <Paper><TaskList tasksList={tasksList} setTasksList={setTasksList} modalState={modalState} setModalState={setModalState} currentDate={currentDate}/></Paper>
                 </Grid>
                 <Grid item sm={6} md={5} lg={4}>
                     <Paper><CalendarDay currentDate={currentDate} tasksList={tasksList} setCurrentDate={setCurrentDate}/></Paper>

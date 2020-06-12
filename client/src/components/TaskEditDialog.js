@@ -15,7 +15,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 
 
 export default function TaskEditDialog({task, openState, close}) {
-    const [state, setState] = useState({ title: task.title, description: task.description,topic:"", from:task.from,to:task.to,date:task.date });
+    const [state, setState] = useState({ title: task.title, description: task.description,topic:task.topic ? task.topic._id : "", from:task.from,to:task.to,date:task.date });
     const [topics, setTopics] = useState([]);
     const handleChange = e => {
     const { name, value } = e.target;
@@ -49,7 +49,7 @@ export default function TaskEditDialog({task, openState, close}) {
   const handleClose = () => {
     let query = `
     mutation{
-      updateTask(id:"${task._id}", taskInput:{title:"${state.title}",description:"${state.description}",topic:"${state.topic}",from:"${state.from}",to:"${state.to}",date:"${state.date}"}){
+      updateTask(id:"${task._id}", taskInput:{title:"${state.title}",description:"${state.description}",${task.topic ? `topic:"${task.topic._id}",` : ""}from:"${state.from}",to:"${state.to}",date:"${state.date}"}){
         _id
       }
     }`;
@@ -80,12 +80,12 @@ export default function TaskEditDialog({task, openState, close}) {
           <Select
             labelId="TopicId"
             onChange={handleChange}
-            defaultValue={task.topic ? task.topic._id : ""}
+            defaultValue={task.topic ? task.topic._id : " "}
             displayEmpty
             fullWidth
             name="topic"
           >
-            <MenuItem value="">
+            <MenuItem value=" ">
               <em>None</em>
             </MenuItem>
             {topics.map(topic =>{

@@ -35,8 +35,8 @@ export default function TopicContainer({topic, openEdit}) {
                   <Typography gutterBottom variant="h4" component="h4">{topic.title}</Typography>
                   <Typography variant="body1" component="p">{topic.description}</Typography>
 
-                  <Typography variant="body1" component="p">Finished: 0</Typography>
-                  <Typography variant="body1" component="p">Failed: 0</Typography>
+                  {/*<Typography variant="body1" component="p">Finished: 0</Typography>
+                  <Typography variant="body1" component="p">Failed: 0</Typography>*/}
                 </CardContent>
             </CardActionArea>
           </Card>

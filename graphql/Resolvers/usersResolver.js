@@ -8,6 +8,12 @@ module.exports = {
         //Return password should be null
         return User.find().populate('addedTasks');
     },  
+    user: (args, req) =>{
+        if(!req.isAuth){
+            throw new Error("Not authorized");
+        }
+        return User.findById(req.userId)
+    },
     createUser: (args) =>{
         return User.findOne({email: args.userInput.email}).then(user =>{
             if(user){
@@ -33,6 +39,17 @@ module.exports = {
             throw err;
         })
 
+    },
+    updateUser: (args, req) =>{
+        if(!req.isAuth){
+            throw new Error("Not authorized");
+        }
+        if(args.username){
+            return User.findOneAndUpdate({_id: req.userId}, {username: args.username}, {new:true}).then(a => a);
+        }
+        else if (args.password){
+            return User.findOneAndUpdate({_id: req.userId}, {password:bcrypt.hash(args.password, 12)}, {new:true}).then(a => a);
+        }
     },
     login: async ({email, password}) =>{
         const user = await User.findOne({email: email});

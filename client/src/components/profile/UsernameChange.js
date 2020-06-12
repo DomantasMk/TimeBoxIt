@@ -5,6 +5,7 @@ import Box from '@material-ui/core/Box';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
     root:{
@@ -35,8 +36,24 @@ export default function UsernameChangeForm() {
     }));
     };
     const handleSubmit = () =>{
-        console.log(state);
-
+        if(state.NewUsername == state.NewUsernameRepeat){
+            let query = `
+            mutation{
+                updateUser(username:"${state.NewUsername}"){
+                  username
+                }
+              }`;
+            axios({
+              url: 'http://localhost:5000/graphiql',
+              method: 'post',
+              data: {
+                  query: query
+                }
+            }).catch((err) =>{console.log(err)});
+        }
+        else{
+            //validation logic
+        }
     }
     return (
         <Box className={classes.paper}>

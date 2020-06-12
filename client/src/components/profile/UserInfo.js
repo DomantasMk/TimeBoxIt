@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
 
   }));
 
-export default function UserInfo() {
+export default function UserInfo({email,username}) {
     
     const classes = useStyles();
 
@@ -24,10 +24,10 @@ export default function UserInfo() {
         <Box className={classes.paper}>
             <Paper className={classes.div}>
                 <Box>
-                    <Typography variant={"h4"}>Username</Typography>
+                    <Typography variant={"h4"}>Username: {username}</Typography>
                 </Box>
                 <Box>
-                    <Typography variant={"h5"}>Email</Typography>
+                    <Typography variant={"h5"}>Email: {email}</Typography>
                 </Box>
             </Paper>
         </Box>

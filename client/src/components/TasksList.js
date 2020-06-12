@@ -14,6 +14,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import theme from '../styles/mainTheme';
 import Modal from './TaskEditDialog';
+import {parse} from 'date-fns';
 
 const useStyles = makeStyles((theme) => ({
     AddButton: {
@@ -25,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     }
   }));
 
-export default function TasksList({tasksList,setTasksList,modalState,setModalState}) {
+export default function TasksList({tasksList,setTasksList,modalState,setModalState, currentDate}) {
     const classes = useStyles(theme);
     const [taskInEdit, setTaskInEdit] = React.useState({});
 
@@ -75,7 +76,7 @@ export default function TasksList({tasksList,setTasksList,modalState,setModalSta
 
       let query = `
       mutation{
-        createTask(taskInput:{title:"Task ${tasksList.length + 1}",description:"",from:"00:00",to:"00:00",date:"${new Date()}"}){
+        createTask(taskInput:{title:"Task ${tasksList.length + 1}",description:"",from:"00:00",to:"00:00",date:"${parse(currentDate, "yyyy-MM-dd",new Date())}"}){
           _id
           date
           description

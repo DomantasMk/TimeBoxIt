@@ -15,6 +15,9 @@ import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
 import {Link} from '@reach/router';
 import Divider from '@material-ui/core/Divider';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import authContext from '../context/auth-context';
+import {useContext} from 'react'
 
 const drawerWidth = 180;
 
@@ -70,12 +73,10 @@ function SideDrawer(props) {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
+  const auth = useContext(authContext); //Logout logic should probably be in another component
 
   const drawer = (
-    <div>
-      
-      <div className={classes.toolbar} />
-      <List>
+      <List style={{height:"100vh"}}>
           <Divider/>
           {/* Side drawer content, links to other components in the router */}
           <ListItem button component={Link} to="/app/Profile">
@@ -99,8 +100,17 @@ function SideDrawer(props) {
           </ListItem>
           <Divider/>
       </List>
-    </div>
   );
+  const logOutInDrawer = (
+    <List style={{marginTop:"auto"}}>
+        <Divider/>
+        <ListItem button component={Link} to="/app/Login" onClick={() =>{auth.logout()}}>
+          <ListItemText primary={"Logout"} />
+          <ListItemIcon><ExitToAppIcon style={{ color: "#fffbff" }} /></ListItemIcon>
+        </ListItem>
+        <Divider/>
+    </List>
+);
 
   const container = window !== undefined ? () => window().document.body : undefined;
 
@@ -126,6 +136,7 @@ function SideDrawer(props) {
             variant="temporary"
             anchor={theme.direction='left'}
             onClose={handleDrawerToggle}
+            open={mobileOpen}
             classes={{
               paper: classes.drawerPaper,
             }}
@@ -134,6 +145,7 @@ function SideDrawer(props) {
             }}
           >
             {drawer}
+            {logOutInDrawer}
           </Drawer>
         </Hidden>
         <Hidden xsDown implementation="css">
@@ -145,6 +157,7 @@ function SideDrawer(props) {
             open
           >
             {drawer}
+            {logOutInDrawer}
           </Drawer>
         </Hidden>
       </nav>

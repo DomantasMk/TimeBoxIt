@@ -54,6 +54,7 @@ input TopicInput{
 type RootQuery{
     tasks: [Task!]!
     users: [User!]
+    user: User!
     topics: [Topic!]
     login(email: String!, password: String!): AuthenticationData!
     authenticate(token: String!): Boolean
@@ -67,6 +68,7 @@ type RootMutation{
     updateTopic(id: ID!, topicInput: TopicInput): Topic
     deleteTopic(id: ID!): Boolean
     createUser(userInput: UserInput): User
+    updateUser(username: String, password: String): User
 }
 
 schema{
