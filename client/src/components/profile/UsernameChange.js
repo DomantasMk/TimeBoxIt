@@ -6,6 +6,7 @@ import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
+import { apiUrl } from "../utils/ApiUrl";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,7 +47,7 @@ export default function UsernameChangeForm() {
                 }
               }`;
       axios({
-        url: "http://localhost:5000/graphiql",
+        url: `${apiUrl}/graphiql`,
         method: "post",
         data: {
           query: query,

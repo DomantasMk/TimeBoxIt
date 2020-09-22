@@ -5,13 +5,14 @@ import UsernameChangeForm from "../components/profile/UsernameChange";
 import UserInfo from "../components/profile/UserInfo";
 import Grid from "@material-ui/core/Grid";
 import axios from "axios";
+import { apiUrl } from "../components/utils/ApiUrl";
 
 export default function Profile() {
   const [userDetails, setUserDetails] = useState({ email: "", username: "" });
 
   useEffect(() => {
     axios({
-      url: "http://localhost:5000/graphiql",
+      url: `${apiUrl}/graphiql`,
       method: "post",
       data: {
         query: `

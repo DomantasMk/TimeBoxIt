@@ -1,3 +1,5 @@
+import { apiUrl } from "./ApiUrl";
+
 const axios = require("axios");
 const setAuthToken = async () => {
   let token = localStorage.getItem("token");
@@ -6,7 +8,7 @@ const setAuthToken = async () => {
         authenticate(token:"${token}")
       }`;
   let result = await axios({
-    url: "http://localhost:5000/graphiql",
+    url: `${apiUrl}/graphiql`,
     method: "post",
     data: {
       query: query,

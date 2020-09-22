@@ -15,6 +15,7 @@ import axios from "axios";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import InputLabel from "@material-ui/core/InputLabel";
+import { apiUrl } from "./utils/ApiUrl";
 
 export default function TaskEditDialog({ task, openState, close }) {
   const [state, setState] = useState({
@@ -45,7 +46,7 @@ export default function TaskEditDialog({ task, openState, close }) {
   }, [task]);
   useEffect(() => {
     axios({
-      url: "http://localhost:5000/graphiql",
+      url: `${apiUrl}/graphiql`,
       method: "post",
       data: {
         query: `
@@ -74,7 +75,7 @@ export default function TaskEditDialog({ task, openState, close }) {
       }
     }`;
     axios({
-      url: "http://localhost:5000/graphiql",
+      url: `${apiUrl}/graphiql`,
       method: "post",
       data: {
         query: query,

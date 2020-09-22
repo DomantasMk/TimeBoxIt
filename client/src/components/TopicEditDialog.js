@@ -6,6 +6,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import axios from "axios";
+import { apiUrl } from "./utils/ApiUrl";
 
 export default function TopicEditDialog({ topic, openState, close }) {
   const [state, setState] = useState({
@@ -48,7 +49,7 @@ export default function TopicEditDialog({ topic, openState, close }) {
       console.log(query);
     }
     axios({
-      url: "http://localhost:5000/graphiql",
+      url: `${apiUrl}/graphiql`,
       method: "post",
       data: {
         query: query,

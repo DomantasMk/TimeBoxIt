@@ -10,6 +10,8 @@ import axios from "axios";
 import { format, parse, add } from "date-fns";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
+import { apiUrl } from "../components/utils/ApiUrl";
+
 const useStyles = makeStyles((theme) => ({
   List: {
     paddingLeft: theme.spacing(1),
@@ -25,7 +27,7 @@ export default function MainAppView() {
 
   useEffect(() => {
     axios({
-      url: "http://localhost:5000/graphiql",
+      url: `${apiUrl}/graphiql`,
       method: "post",
       data: {
         query: `

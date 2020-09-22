@@ -13,6 +13,7 @@ import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import theme from "../styles/mainTheme";
 import Modal from "./TaskEditDialog";
 import { parse } from "date-fns";
+import { apiUrl } from "./utils/ApiUrl";
 
 const useStyles = makeStyles((theme) => ({
   AddButton: {
@@ -46,7 +47,7 @@ export default function TasksList({
         }
       }`;
     axios({
-      url: "http://localhost:5000/graphiql",
+      url: `${apiUrl}/graphiql`,
       method: "post",
       data: {
         query: query,
@@ -68,7 +69,7 @@ export default function TasksList({
         deleteTask(id:"${task._id}")
       }`;
     axios({
-      url: "http://localhost:5000/graphiql",
+      url: `${apiUrl}/graphiql`,
       method: "post",
       data: {
         query: query,
@@ -103,7 +104,7 @@ export default function TasksList({
         }
       }`;
     axios({
-      url: "http://localhost:5000/graphiql",
+      url: `${apiUrl}/graphiql`,
       method: "post",
       data: {
         query: query,

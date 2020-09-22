@@ -5,6 +5,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import Fab from "@material-ui/core/Fab";
 import Modal from "../components/TopicEditDialog";
+import { apiUrl } from "../components/utils/ApiUrl";
+
 const useStyles = makeStyles((theme) => ({
   AddButton: {
     display: "flex",
@@ -19,7 +21,7 @@ export default function TopicsList() {
   useEffect(() => {
     if (!modalState) {
       axios({
-        url: "http://localhost:5000/graphiql",
+        url: `${apiUrl}/graphiql`,
         method: "post",
         data: {
           query: `
@@ -52,7 +54,7 @@ export default function TopicsList() {
           }
           `;
     axios({
-      url: "http://localhost:5000/graphiql",
+      url: `${apiUrl}/graphiql`,
       method: "post",
       data: {
         query: query,

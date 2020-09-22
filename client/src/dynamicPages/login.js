@@ -9,7 +9,7 @@ import { navigate } from "@reach/router";
 import authContext from "../context/auth-context";
 import axios from "axios";
 import Divider from "@material-ui/core/Divider";
-
+import { apiUrl } from "../components/utils/ApiUrl";
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "25rem",
@@ -47,7 +47,7 @@ function Login() {
             }
           }`;
     axios({
-      url: "http://localhost:5000/graphiql",
+      url: `${apiUrl}/graphiql`,
       method: "post",
       data: {
         query: query,

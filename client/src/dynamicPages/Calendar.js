@@ -4,6 +4,7 @@ import { ViewState } from "@devexpress/dx-react-scheduler";
 import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import makeTasks from "../components/utils/makeTasks";
+import { apiUrl } from "../components/utils/ApiUrl";
 
 import {
   Scheduler,
@@ -41,7 +42,7 @@ export default function Calendar() {
 
   useEffect(() => {
     axios({
-      url: "http://localhost:5000/graphiql",
+      url: `${apiUrl}/graphiql`,
       method: "post",
       data: {
         query: `
